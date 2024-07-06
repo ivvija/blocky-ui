@@ -1,0 +1,87 @@
+package components
+
+templ headerBar(status int) {
+	<div class="is-flex is-justify-content-space-between">
+		if status == 0 {
+			<button class="button is-success">
+				<span class="icon">
+					@icon("shield")
+				</span>
+				<span>Blocky</span>
+			</button>
+		} else if status == 1 {
+			<button class="button is-danger">
+				<span class="icon">
+					@icon("shield-off")
+				</span>
+				<span>Stopped</span>
+			</button>
+		} else if status == 2 {
+			<button class="button is-warning">
+				<span class="icon">
+					@icon("pause")
+				</span>
+				<span>Paused</span>
+			</button>
+		}
+		<div class="buttons">
+			<button class="button">
+				<span class="icon">
+					@icon("trash")
+				</span>
+			</button>
+			<button class="button">
+				<span class="icon">
+					@icon("refresh-cw")
+				</span>
+			</button>
+			if status == 2 {
+				<button class="button is-success">
+					<span class="icon">
+						@icon("play")
+					</span>
+				</button>
+			} else {
+				<button class="button is-warning">
+					<span class="icon">
+						@icon("pause")
+					</span>
+				</button>
+			}
+		</div>
+	</div>
+}
+
+templ queryForm() {
+	<form class="field has-addons">
+		<div class="control is-expanded">
+			<input class="input" type="text" name="query" placeholder="Query" required/>
+		</div>
+		<div class="control">
+			<div class="select">
+				<select name="type">
+					<option value="A">A</option>
+					<option value="AAAA">AAAA</option>
+					<option value="MX">MX</option>
+					<option value="TXT">TXT</option>
+				</select>
+			</div>
+		</div>
+		<div class="control">
+			<button type="submit" class="button is-info">Choose</button>
+		</div>
+	</form>
+}
+
+templ Dash() {
+	@baseWrap() {
+		@headerBar(0)
+		@headerBar(1)
+		@headerBar(2)
+		@queryForm()
+		<p>Dash</p>
+		<p>
+			@icon("check")
+		</p>
+	}
+}
