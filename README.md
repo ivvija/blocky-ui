@@ -12,6 +12,10 @@ Simple web interface for [blocky](https://github.com/0xERR0R/blocky), a lightwei
 - uses [HTMX](https://htmx.org/) to get status and query updates
 - **disabled Javascript:** no lost functionality, uses `<form>` for full page reloads
 
+### Screenshot
+
+![screenshot: status and query results](screenshot.png)
+
 ## Config
 
 All config is done via environment variables:
@@ -44,6 +48,7 @@ services:
     image: spx01/blocky
     container_name: blocky
     # ... other blocky config
+    # https://0xerr0r.github.io/blocky/latest/installation/#run-with-docker-compose
 
   blocky-ui:
     image: blocky-ui
