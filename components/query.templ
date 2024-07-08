@@ -1,0 +1,109 @@
+package components
+
+import (
+	"blocky-ui/api"
+	"strconv"
+)
+
+templ queryForm() {
+	<form
+		action="/"
+		method="post"
+		class="field has-addons"
+		hx-post="/"
+		hx-target="#queryResult"
+		hx-swap="outerHTML"
+	>
+		<div class="control is-expanded">
+			<input class="input" type="text" name="query" placeholder="Query" required/>
+		</div>
+		<div class="control">
+			<div class="select">
+				<select name="type">
+					<option value="A">A</option>
+					<option value="AAAA">AAAA</option>
+					<option value="CNAME">CNAME</option>
+					<option value="MX">MX</option>
+					<option value="TXT">TXT</option>
+					<option value="NS">NS</option>
+					<option value="SRV">SRV</option>
+					<option value="PTR">PTR</option>
+				</select>
+			</div>
+		</div>
+		<div class="control">
+			<button type="submit" class="button is-info">Query</button>
+		</div>
+	</form>
+}
+
+templ queryResultEmpty() {
+	<div id="queryResult"></div>
+}
+
+templ QueryResult(result api.QueryResponse) {
+	<div id="queryResult" class="mt-5">
+		@resultHeader(result)
+		@resultTable(resultHeaders(result), result.ResponseTable)
+	</div>
+}
+
+func resultHeaders(result api.QueryResponse) []string {
+	rt := result.RecordType
+	if rt == "MX" || rt == "TXT" || rt == "NS" {
+		return []string{"Domain", "TTL", "Class", "Type", "Value"}
+	}
+
+	return []string{"Type", "Value"}
+}
+
+templ resultHeader(result api.QueryResponse) {
+	<div class="table-container">
+		<table class="table is-narrow is-fullwidth is-bordered">
+			<tr>
+				<th>Type</th>
+				<th>Reason</th>
+				<th>Response</th>
+				<th>Code</th>
+			</tr>
+			<tr>
+				<td>{ result.RecordType }</td>
+				<td>{ result.Reason }</td>
+				<td>{ result.ResponseType }</td>
+				<td>{ result.ReturnCode }</td>
+			</tr>
+		</table>
+	</div>
+}
+
+templ resultTable(headers []string, table [][]string) {
+	<div class="table-container">
+		<table class="table is-narrow is-fullwidth is-bordered">
+			<thead>
+				<tr>
+					for _, header := range headers {
+						<th>{ header }</th>
+					}
+				</tr>
+			</thead>
+			<tbody>
+				if len(table) == 0 {
+					<tr>
+						<td colspan={ strconv.Itoa(len(headers)) }>
+							<div class="p-4 has-text-centered">
+								<code>No data</code>
+							</div>
+						</td>
+					</tr>
+				}
+				for _, row := range table {
+					<tr>
+						for _, cell := range row {
+							<td class="text-no-wrap">{ cell }</td>
+						}
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+}

@@ -9,5 +9,10 @@
 }
 
 #blocky-ui {
+    min-width: 20em;
     max-width: 40em;
+}
+
+.text-no-wrap {
+    white-space: nowrap;
 }

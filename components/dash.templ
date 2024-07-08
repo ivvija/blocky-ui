@@ -1,159 +1,19 @@
 package components
 
-import (
-	"blocky-ui/api"
-	"fmt"
-)
-
-templ HeaderBar(status int) {
-	<form
-		id="headerForm"
-		action="/"
-		method="post"
-		class="level"
-		hx-get="/status"
-		hx-trigger="every 10s"
-		hx-target="#headerForm"
-		hx-swap="outerHTML"
-	>
-		<div class="level-left">
-			<div class="level-item">
-				<button
-					name="toggle"
-					type="submit"
-					class={ "button", statusClass(status) }
-					hx-post="/toggle"
-					hx-target="#headerForm"
-					hx-swap="outerHTML"
-				>
-					<span class="icon">
-						@icon(statusIcon(status))
-					</span>
-					<span>
-						{ statusText(status) }
-					</span>
-				</button>
-			</div>
-		</div>
-		<div class="level-right">
-			<div class="level-item">
-				<button name="flush" type="submit" class="button" hx-post="/flush" hx-swap="none">
-					<span class="icon">
-						@icon("trash")
-					</span>
-				</button>
-			</div>
-			<div class="level-item">
-				<button name="refresh" type="submit" class="button" hx-post="/refresh" hx-swap="none">
-					<span class="icon">
-						@icon("refresh-cw")
-					</span>
-				</button>
-			</div>
-			<div class="level-item">
-				if status == 2 {
-					<button
-						name="togglePause"
-						type="submit"
-						class="button is-success"
-						hx-post="/togglePause"
-						hx-target="#headerForm"
-						hx-swap="outerHTML"
-					>
-						<span class="icon">
-							@icon("play")
-						</span>
-					</button>
-				} else {
-					<button
-						name="togglePause"
-						type="submit"
-						class="button is-warning"
-						hx-post="/togglePause"
-						hx-target="#headerForm"
-						hx-swap="outerHTML"
-					>
-						<span class="icon">
-							@icon("pause")
-						</span>
-					</button>
-				}
-			</div>
-		</div>
-	</form>
-}
-
-templ queryForm() {
-	<form
-		action="/"
-		method="post"
-		class="field has-addons"
-		hx-post="/query"
-		hx-target="#queryResult"
-		hx-swap="innerHTML"
-	>
-		<div class="control is-expanded">
-			<input class="input" type="text" name="query" placeholder="Query" required/>
-		</div>
-		<div class="control">
-			<div class="select">
-				<select name="type">
-					<option value="A">A</option>
-					<option value="AAAA">AAAA</option>
-					<option value="MX">MX</option>
-					<option value="TXT">TXT</option>
-				</select>
-			</div>
-		</div>
-		<div class="control">
-			<button type="submit" class="button is-info">Choose</button>
-		</div>
-	</form>
-	<div id="queryResult"></div>
-}
+import "blocky-ui/api"
 
 templ Dash(status int) {
 	@baseWrap() {
 		@HeaderBar(status)
 		@queryForm()
+		@queryResultEmpty()
 	}
 }
 
-func statusIcon(status int) string {
-	switch status {
-	case 0:
-		return "shield"
-	case 1:
-		return "shield-off"
-	case 2:
-		return "pause"
-	default:
-		return "frown"
-	}
-}
-
-func statusClass(status int) string {
-	switch status {
-	case api.Enabled:
-		return "is-success"
-	case api.Disabled:
-		return "is-danger"
-	case api.Paused:
-		return "is-warning"
-	default:
-		return "is-black"
-	}
-}
-
-func statusText(status int) string {
-	switch status {
-	case api.Enabled:
-		return "Blocky"
-	case api.Disabled:
-		return "Stopped"
-	case api.Paused:
-		return "Paused"
-	default:
-		return fmt.Sprintf("Unk.Status: %d", status)
+templ DashQueryResult(status int, result api.QueryResponse) {
+	@baseWrap() {
+		@HeaderBar(status)
+		@queryForm()
+		@QueryResult(result)
 	}
 }
