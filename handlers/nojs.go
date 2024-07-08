@@ -1,17 +1,26 @@
 package handlers
 
 import (
+	"blocky-ui/api"
 	"blocky-ui/components"
 	"net/http"
 )
 
 func Get(w http.ResponseWriter, r *http.Request) {
-	// TODO: real status value
-	components.Dash(0).Render(r.Context(), w)
+	status, err := api.GetStatus(r.Context())
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	components.Dash(status.Status).Render(r.Context(), w)
 }
 
 func Post(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
+
+	// TODO: maybe handle HTMX by checking the headers:
+	//   r.Header.Get("HX-Request") == "true"
 
 	// TODO: real status value
 	status := 0

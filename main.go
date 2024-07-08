@@ -1,11 +1,15 @@
 package main
 
 import (
-	"blocky-ui/handlers"
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
+	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+
+	"blocky-ui/handlers"
+	"blocky-ui/settings"
 )
 
 func main() {
@@ -27,11 +31,14 @@ func main() {
 	router.Post("/", handlers.Post)
 
 	// HTMX handlers
+	router.Get("/status", handlers.Status)
 	router.Post("/toggle", handlers.Toggle)
 	router.Post("/togglePause", handlers.TogglePause)
 	router.Post("/refresh", handlers.Refresh)
 	router.Post("/flush", handlers.Flush)
 	router.Post("/query", handlers.Query)
 
-	log.Fatal(http.ListenAndServe(":3000", router))
+	addr := fmt.Sprintf("%s:%s", settings.Host, settings.Port)
+	log.Printf("Listening on http://%s", addr)
+	log.Fatal(http.ListenAndServe(addr, router))
 }

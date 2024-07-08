@@ -8,7 +8,10 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "fmt"
+import (
+	"blocky-ui/api"
+	"fmt"
+)
 
 func HeaderBar(status int) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -28,7 +31,7 @@ func HeaderBar(status int) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form id=\"headerForm\" action=\"/\" method=\"post\" class=\"level\"><div class=\"level-left\"><div class=\"level-item\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form id=\"headerForm\" action=\"/\" method=\"post\" class=\"level\" hx-get=\"/status\" hx-trigger=\"every 10s\" hx-target=\"#headerForm\" hx-swap=\"outerHTML\"><div class=\"level-left\"><div class=\"level-item\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -65,7 +68,7 @@ func HeaderBar(status int) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(statusText(status))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/dash.templ`, Line: 21, Col: 26}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/dash.templ`, Line: 33, Col: 26}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -219,11 +222,11 @@ func statusIcon(status int) string {
 
 func statusClass(status int) string {
 	switch status {
-	case 0:
+	case api.Enabled:
 		return "is-success"
-	case 1:
+	case api.Disabled:
 		return "is-danger"
-	case 2:
+	case api.Paused:
 		return "is-warning"
 	default:
 		return "is-black"
@@ -232,11 +235,11 @@ func statusClass(status int) string {
 
 func statusText(status int) string {
 	switch status {
-	case 0:
+	case api.Enabled:
 		return "Blocky"
-	case 1:
+	case api.Disabled:
 		return "Stopped"
-	case 2:
+	case api.Paused:
 		return "Paused"
 	default:
 		return fmt.Sprintf("Unk.Status: %d", status)

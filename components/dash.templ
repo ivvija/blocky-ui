@@ -1,9 +1,21 @@
 package components
 
-import "fmt"
+import (
+	"blocky-ui/api"
+	"fmt"
+)
 
 templ HeaderBar(status int) {
-	<form id="headerForm" action="/" method="post" class="level">
+	<form
+		id="headerForm"
+		action="/"
+		method="post"
+		class="level"
+		hx-get="/status"
+		hx-trigger="every 10s"
+		hx-target="#headerForm"
+		hx-swap="outerHTML"
+	>
 		<div class="level-left">
 			<div class="level-item">
 				<button
@@ -122,11 +134,11 @@ func statusIcon(status int) string {
 
 func statusClass(status int) string {
 	switch status {
-	case 0:
+	case api.Enabled:
 		return "is-success"
-	case 1:
+	case api.Disabled:
 		return "is-danger"
-	case 2:
+	case api.Paused:
 		return "is-warning"
 	default:
 		return "is-black"
@@ -135,11 +147,11 @@ func statusClass(status int) string {
 
 func statusText(status int) string {
 	switch status {
-	case 0:
+	case api.Enabled:
 		return "Blocky"
-	case 1:
+	case api.Disabled:
 		return "Stopped"
-	case 2:
+	case api.Paused:
 		return "Paused"
 	default:
 		return fmt.Sprintf("Unk.Status: %d", status)
