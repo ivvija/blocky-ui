@@ -26,17 +26,8 @@ func main() {
 	fs := http.FileServer(http.Dir("assets"))
 	router.Get("/assets/*", http.StripPrefix("/assets/", fs).ServeHTTP)
 
-	// no-JS handlers
 	router.Get("/", handlers.Get)
 	router.Post("/", handlers.Post)
-
-	// HTMX handlers
-	router.Get("/status", handlers.Status)
-	router.Post("/toggle", handlers.Toggle)
-	router.Post("/togglePause", handlers.TogglePause)
-	router.Post("/refresh", handlers.Refresh)
-	router.Post("/flush", handlers.Flush)
-	router.Post("/query", handlers.Query)
 
 	addr := fmt.Sprintf("%s:%s", settings.Host, settings.Port)
 	log.Printf("Listening on http://%s", addr)
