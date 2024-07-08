@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"regexp"
 	"strings"
@@ -212,9 +211,6 @@ func Query(ctx context.Context, query string, recordType string) (*QueryResponse
 	if err := sendRequest(req, &apiRes); err != nil {
 		return nil, err
 	}
-
-	log.Println(apiRes)
-	log.Println(apiRes.Response)
 
 	return &QueryResponse{
 		recordType,

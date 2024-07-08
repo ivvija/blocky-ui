@@ -5,7 +5,6 @@ import (
 	"blocky-ui/components"
 	"blocky-ui/settings"
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 )
@@ -20,7 +19,6 @@ func Post(w http.ResponseWriter, r *http.Request) {
 	isHX := "true" == r.Header.Get("HX-Request")
 
 	r.ParseForm()
-	log.Println(isHX, r.Form.Encode())
 
 	switch {
 	case r.Form.Has("toggle"):
