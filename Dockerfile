@@ -42,6 +42,7 @@ USER 100
 WORKDIR /app
 
 COPY --link --from=build /bin/blocky-ui /app/blocky-ui
+COPY ./assets /app/assets
 
 ENV HOST=0.0.0.0
 ENV PORT=3000
