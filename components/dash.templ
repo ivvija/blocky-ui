@@ -2,7 +2,7 @@ package components
 
 import "blocky-ui/api"
 
-templ Dash(status int) {
+templ Dash(status api.StatusResponse) {
 	@baseWrap() {
 		@HeaderBar(status)
 		@queryForm()
@@ -10,7 +10,7 @@ templ Dash(status int) {
 	}
 }
 
-templ DashQueryResult(status int, result api.QueryResponse) {
+templ DashQueryResult(status api.StatusResponse, result api.QueryResponse) {
 	@baseWrap() {
 		@HeaderBar(status)
 		@queryForm()

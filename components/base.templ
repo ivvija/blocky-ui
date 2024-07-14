@@ -4,12 +4,16 @@ templ baseWrap() {
 	<!DOCTYPE html>
 	<html>
 		<head>
+			<noscript>
+				<meta http-equiv="refresh" content="10"/>
+			</noscript>
 			<meta charset="utf-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1"/>
 			<link rel="stylesheet" href="assets/bulma.min.css"/>
 			<link rel="stylesheet" href="assets/blocky-ui.css"/>
-			<script src="assets/htmx.min.js"></script>
-			<script src="assets/blocky-ui.js"></script>
+			<script src="assets/htmx.min.js" defer></script>
+			<script src="assets/blocky-ui.js" defer></script>
+			<meta name="htmx-config" content='{"requestClass": "is-loading", "includeIndicatorStyles": false}'/>
 		</head>
 		<body class="p-3">
 			<div id="blocky-ui" class="container">

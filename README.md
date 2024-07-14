@@ -10,7 +10,9 @@ Simple web interface for [blocky](https://github.com/0xERR0R/blocky), a lightwei
     - refresh allow and deny lists
     - flush DNS cache
 - uses [HTMX](https://htmx.org/) to get status and query updates
-- **disabled Javascript:** no lost functionality, uses `<form>` for full page reloads
+- **no lost functionality if Javascript is disabled:**
+    - uses `<form>` for full page reloads
+    - pause end time instead of countdown
 
 ### Screenshot
 

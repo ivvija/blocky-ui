@@ -13,6 +13,7 @@ templ queryForm() {
 		hx-post="/"
 		hx-target="#queryResult"
 		hx-swap="outerHTML"
+		hx-indicator="#queryBtn"
 	>
 		<div class="control is-expanded">
 			<input class="input" type="text" name="query" placeholder="Query" required/>
@@ -32,7 +33,7 @@ templ queryForm() {
 			</div>
 		</div>
 		<div class="control">
-			<button type="submit" class="button is-info">Query</button>
+			<button id="queryBtn" type="submit" class="button is-info">Query</button>
 		</div>
 	</form>
 }

@@ -26,7 +26,7 @@ func baseWrap() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><link rel=\"stylesheet\" href=\"assets/bulma.min.css\"><link rel=\"stylesheet\" href=\"assets/blocky-ui.css\"><script src=\"assets/htmx.min.js\"></script><script src=\"assets/blocky-ui.js\"></script></head><body class=\"p-3\"><div id=\"blocky-ui\" class=\"container\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html><head><noscript><meta http-equiv=\"refresh\" content=\"10\"></noscript><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><link rel=\"stylesheet\" href=\"assets/bulma.min.css\"><link rel=\"stylesheet\" href=\"assets/blocky-ui.css\"><script src=\"assets/htmx.min.js\" defer></script><script src=\"assets/blocky-ui.js\" defer></script><meta name=\"htmx-config\" content=\"{&#34;requestClass&#34;: &#34;is-loading&#34;, &#34;includeIndicatorStyles&#34;: false}\"></head><body class=\"p-3\"><div id=\"blocky-ui\" class=\"container\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

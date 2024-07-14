@@ -3,9 +3,10 @@ package components
 import (
 	"blocky-ui/api"
 	"fmt"
+	"time"
 )
 
-templ HeaderBar(status int) {
+templ HeaderBar(res api.StatusResponse) {
 	<form
 		id="headerForm"
 		action="/"
@@ -15,22 +16,25 @@ templ HeaderBar(status int) {
 		hx-trigger="every 10s"
 		hx-target="#headerForm"
 		hx-swap="outerHTML"
+		hx-on--after-swap="updatePauseText()"
 	>
 		<div class="level-left is-flex-direction-row">
 			<div class="level-item">
 				<button
+					id="toggleBtn"
 					name="toggle"
 					type="submit"
-					class={ "button", statusClass(status) }
+					class={ "button", statusClass(res.Status) }
 					hx-post="/"
 					hx-target="#headerForm"
 					hx-swap="outerHTML"
+					data-pause-end={ pauseEndIso(res) }
 				>
 					<span class="icon">
-						@icon(statusIcon(status))
+						@icon(statusIcon(res.Status))
 					</span>
-					<span>
-						{ statusText(status) }
+					<span id="toggleBtnText">
+						{ statusText(res) }
 					</span>
 				</button>
 			</div>
@@ -51,7 +55,7 @@ templ HeaderBar(status int) {
 				</button>
 			</div>
 			<div class="level-item">
-				if status == 2 {
+				if res.Status == api.Paused {
 					<button
 						name="togglePause"
 						type="submit"
@@ -85,11 +89,11 @@ templ HeaderBar(status int) {
 
 func statusIcon(status int) string {
 	switch status {
-	case 0:
+	case api.Enabled:
 		return "shield"
-	case 1:
+	case api.Disabled:
 		return "shield-off"
-	case 2:
+	case api.Paused:
 		return "pause"
 	default:
 		return "frown"
@@ -109,15 +113,23 @@ func statusClass(status int) string {
 	}
 }
 
-func statusText(status int) string {
-	switch status {
+func statusText(res api.StatusResponse) string {
+	switch res.Status {
 	case api.Enabled:
 		return "Blocky"
 	case api.Disabled:
 		return "Stopped"
 	case api.Paused:
-		return "Paused"
+		return fmt.Sprintf("Paused until %s", res.PauseEnd.Format("15:04:05"))
 	default:
-		return fmt.Sprintf("Unk.Status: %d", status)
+		return fmt.Sprintf("Unk.Status: %d", res.Status)
 	}
+}
+
+func pauseEndIso(res api.StatusResponse) string {
+	if res.Status != api.Paused || res.PauseEnd.Before(time.Now()) {
+		return ""
+	}
+
+	return res.PauseEnd.Format(time.RFC3339)
 }

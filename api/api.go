@@ -20,8 +20,8 @@ const (
 )
 
 type StatusResponse struct {
-	Status        int
-	PausedSeconds int
+	Status   int
+	PauseEnd time.Time
 }
 type QueryResponse struct {
 	RecordType    string
@@ -78,12 +78,16 @@ func Status(ctx context.Context) (*StatusResponse, error) {
 	}
 
 	if apiRes.AutoEnableInSec > 0 {
-		return &StatusResponse{Paused, apiRes.AutoEnableInSec}, nil
+		pauseDuration := time.Duration(apiRes.AutoEnableInSec) * time.Second
+		return &StatusResponse{
+			Status:   Paused,
+			PauseEnd: time.Now().Add(pauseDuration),
+		}, nil
 	} else if !apiRes.Enabled {
-		return &StatusResponse{Disabled, -1}, nil
+		return &StatusResponse{Status: Disabled}, nil
 	}
 
-	return &StatusResponse{Enabled, -1}, nil
+	return &StatusResponse{Status: Enabled}, nil
 }
 
 func enable(ctx context.Context) (*StatusResponse, error) {
@@ -95,7 +99,7 @@ func enable(ctx context.Context) (*StatusResponse, error) {
 	if err := sendRequest(req, nil); err != nil {
 		return nil, err
 	}
-	return &StatusResponse{Enabled, -1}, nil
+	return &StatusResponse{Status: Enabled}, nil
 }
 
 func disable(ctx context.Context) (*StatusResponse, error) {
@@ -107,7 +111,7 @@ func disable(ctx context.Context) (*StatusResponse, error) {
 	if err := sendRequest(req, nil); err != nil {
 		return nil, err
 	}
-	return &StatusResponse{Disabled, -1}, nil
+	return &StatusResponse{Status: Disabled}, nil
 }
 
 func pause(ctx context.Context, duration time.Duration) (*StatusResponse, error) {
@@ -122,7 +126,10 @@ func pause(ctx context.Context, duration time.Duration) (*StatusResponse, error)
 		return nil, err
 	}
 
-	return &StatusResponse{Paused, int(duration.Seconds())}, nil
+	return &StatusResponse{
+		Status:   Paused,
+		PauseEnd: time.Now().Add(duration),
+	}, nil
 }
 
 func Toggle(ctx context.Context) (*StatusResponse, error) {

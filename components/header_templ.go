@@ -11,9 +11,10 @@ import templruntime "github.com/a-h/templ/runtime"
 import (
 	"blocky-ui/api"
 	"fmt"
+	"time"
 )
 
-func HeaderBar(status int) templ.Component {
+func HeaderBar(res api.StatusResponse) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -31,16 +32,16 @@ func HeaderBar(status int) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form id=\"headerForm\" action=\"/\" method=\"post\" class=\"level is-mobile\" hx-get=\"/\" hx-trigger=\"every 10s\" hx-target=\"#headerForm\" hx-swap=\"outerHTML\"><div class=\"level-left is-flex-direction-row\"><div class=\"level-item\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form id=\"headerForm\" action=\"/\" method=\"post\" class=\"level is-mobile\" hx-get=\"/\" hx-trigger=\"every 10s\" hx-target=\"#headerForm\" hx-swap=\"outerHTML\" hx-on--after-swap=\"updatePauseText()\"><div class=\"level-left is-flex-direction-row\"><div class=\"level-item\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 = []any{"button", statusClass(status)}
+		var templ_7745c5c3_Var2 = []any{"button", statusClass(res.Status)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button name=\"toggle\" type=\"submit\" class=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button id=\"toggleBtn\" name=\"toggle\" type=\"submit\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -53,24 +54,37 @@ func HeaderBar(status int) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-post=\"/\" hx-target=\"#headerForm\" hx-swap=\"outerHTML\"><span class=\"icon\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = icon(statusIcon(status)).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> <span>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-post=\"/\" hx-target=\"#headerForm\" hx-swap=\"outerHTML\" data-pause-end=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(statusText(status))
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(pauseEndIso(res))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/header.templ`, Line: 33, Col: 26}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/header.templ`, Line: 31, Col: 38}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><span class=\"icon\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = icon(statusIcon(res.Status)).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> <span id=\"toggleBtnText\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var5 string
+		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(statusText(res))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/header.templ`, Line: 37, Col: 23}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -94,7 +108,7 @@ func HeaderBar(status int) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if status == 2 {
+		if res.Status == api.Paused {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button name=\"togglePause\" type=\"submit\" class=\"button is-success\" hx-post=\"/\" hx-target=\"#headerForm\" hx-swap=\"outerHTML\"><span class=\"icon\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -131,11 +145,11 @@ func HeaderBar(status int) templ.Component {
 
 func statusIcon(status int) string {
 	switch status {
-	case 0:
+	case api.Enabled:
 		return "shield"
-	case 1:
+	case api.Disabled:
 		return "shield-off"
-	case 2:
+	case api.Paused:
 		return "pause"
 	default:
 		return "frown"
@@ -155,15 +169,23 @@ func statusClass(status int) string {
 	}
 }
 
-func statusText(status int) string {
-	switch status {
+func statusText(res api.StatusResponse) string {
+	switch res.Status {
 	case api.Enabled:
 		return "Blocky"
 	case api.Disabled:
 		return "Stopped"
 	case api.Paused:
-		return "Paused"
+		return fmt.Sprintf("Paused until %s", res.PauseEnd.Format("15:04:05"))
 	default:
-		return fmt.Sprintf("Unk.Status: %d", status)
+		return fmt.Sprintf("Unk.Status: %d", res.Status)
 	}
+}
+
+func pauseEndIso(res api.StatusResponse) string {
+	if res.Status != api.Paused || res.PauseEnd.Before(time.Now()) {
+		return ""
+	}
+
+	return res.PauseEnd.Format(time.RFC3339)
 }

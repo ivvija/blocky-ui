@@ -54,9 +54,9 @@ func handleStatus(w http.ResponseWriter, r *http.Request, isHX bool) {
 		return
 	}
 	if isHX {
-		components.HeaderBar(status.Status).Render(r.Context(), w)
+		components.HeaderBar(*status).Render(r.Context(), w)
 	} else {
-		components.Dash(status.Status).Render(r.Context(), w)
+		components.Dash(*status).Render(r.Context(), w)
 	}
 }
 
@@ -69,9 +69,9 @@ func handleToggle(w http.ResponseWriter, r *http.Request, isHX bool) {
 	}
 
 	if isHX {
-		components.HeaderBar(newStatus.Status).Render(r.Context(), w)
+		components.HeaderBar(*newStatus).Render(r.Context(), w)
 	} else {
-		components.Dash(newStatus.Status).Render(r.Context(), w)
+		components.Dash(*newStatus).Render(r.Context(), w)
 	}
 }
 
@@ -84,9 +84,9 @@ func handleTogglePause(w http.ResponseWriter, r *http.Request, isHX bool, durati
 	}
 
 	if isHX {
-		components.HeaderBar(newStatus.Status).Render(r.Context(), w)
+		components.HeaderBar(*newStatus).Render(r.Context(), w)
 	} else {
-		components.Dash(newStatus.Status).Render(r.Context(), w)
+		components.Dash(*newStatus).Render(r.Context(), w)
 	}
 }
 
@@ -135,6 +135,6 @@ func handleQuery(w http.ResponseWriter, r *http.Request, isHX bool, query string
 	if isHX {
 		components.QueryResult(*result).Render(r.Context(), w)
 	} else {
-		components.DashQueryResult(status.Status, *result).Render(r.Context(), w)
+		components.DashQueryResult(*status, *result).Render(r.Context(), w)
 	}
 }
