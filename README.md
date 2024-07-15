@@ -31,29 +31,31 @@ All config is done via environment variables:
 
 ## Run with docker
 
-*Not pushed to any registry yet, need to build it yourself!*
+Use `-e API_BASE_URL=...` or `--env-file .env` to set the variables if needed.
 
-Use `-e ...` or `--env-file` to set the variables if needed.
+```shell
+docker run --name blocky-ui -p 3000:3000 ghcr.io/ivvija/blocky-ui
+```
+
+Build it yourself:
 
 ```shell
 docker buildx build --build-arg VERSION=latest . -t blocky-ui
-docker run --name blocky-ui -p 3000:3000 blocky-ui
 ```
 
-### compose.yml
 
-*Not pushed to any registry yet, see above for build command.*
+### compose.yml
 
 ```yaml
 services:
   blocky:
-    image: spx01/blocky
+    image: spx01/blocky  # alt: ghcr.io/0xerr0r/blocky
     container_name: blocky
     # ... other blocky config
     # https://0xerr0r.github.io/blocky/latest/installation/#run-with-docker-compose
 
   blocky-ui:
-    image: blocky-ui
+    image: ghcr.io/ivvija/blocky-ui
     container_name: blocky-ui
     restart: unless-stopped
     depends_on:
