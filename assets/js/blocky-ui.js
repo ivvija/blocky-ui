@@ -3,7 +3,7 @@ function updatePauseText() {
     if (end === "") return
 
     const seconds = (new Date(end) - Date.now()) / 1000
-    if (seconds < 1) {
+    if (seconds < 1.0) {
         htmx.trigger("#headerForm", "updateApi")
         return
     }

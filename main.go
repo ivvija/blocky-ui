@@ -24,7 +24,7 @@ func main() {
 	})
 
 	fs := http.FileServer(http.Dir("assets"))
-	router.Get("/assets/*", http.StripPrefix("/assets/", fs).ServeHTTP)
+	router.Get("/*", fs.ServeHTTP)
 
 	router.Get("/", handlers.Get)
 	router.Post("/", handlers.Post)
