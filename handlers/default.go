@@ -1,12 +1,13 @@
 package handlers
 
 import (
-	"blocky-ui/api"
-	"blocky-ui/components"
-	"blocky-ui/settings"
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/ivvija/blocky-ui/api"
+	"github.com/ivvija/blocky-ui/components"
+	"github.com/ivvija/blocky-ui/settings"
 )
 
 func Get(w http.ResponseWriter, r *http.Request) {

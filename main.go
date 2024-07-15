@@ -8,8 +8,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 
-	"blocky-ui/handlers"
-	"blocky-ui/settings"
+	"github.com/ivvija/blocky-ui/handlers"
+	"github.com/ivvija/blocky-ui/settings"
 )
 
 func main() {

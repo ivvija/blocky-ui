@@ -9,7 +9,7 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"blocky-ui/api"
+	"github.com/ivvija/blocky-ui/api"
 	"strconv"
 )
 

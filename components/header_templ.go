@@ -9,8 +9,8 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"blocky-ui/api"
 	"fmt"
+	"github.com/ivvija/blocky-ui/api"
 	"time"
 )
 

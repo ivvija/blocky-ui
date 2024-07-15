@@ -1,4 +1,4 @@
-module blocky-ui
+module github.com/ivvija/blocky-ui
 
 go 1.22
 

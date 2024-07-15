@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"blocky-ui/settings"
+	"github.com/ivvija/blocky-ui/settings"
 )
 
 const (
