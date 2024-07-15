@@ -36,7 +36,7 @@ LABEL org.opencontainers.image.title="blocky-ui" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.description="Simple web interface for blocky" \
       org.opencontainers.image.url="https://github.com/ivvija/blocky-ui#readme" \
-      org.opencontainers.image.source="https://github.com/ivvija/blocky"
+      org.opencontainers.image.source="https://github.com/ivvija/blocky-ui"
 
 USER 100
 WORKDIR /app
